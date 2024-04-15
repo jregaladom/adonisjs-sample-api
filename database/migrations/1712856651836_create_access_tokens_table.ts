@@ -4,14 +4,14 @@ export default class extends BaseSchema {
   protected tableName = 'auth_access_tokens'
 
   async up() {
-    this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
+    this.schema.withSchema('auth').createTable(this.tableName, (table) => {
+      table.uuid('id').primary().notNullable()
       table
-        .string('tokenable_id')
+        .uuid('tokenable_id')
         .notNullable()
         .unsigned()
         .references('id')
-        .inTable('users')
+        .inTable('auth.users')
         .onDelete('CASCADE')
 
       table.string('type').notNullable()
