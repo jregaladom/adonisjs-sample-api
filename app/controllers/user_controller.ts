@@ -2,10 +2,13 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 
 export default class UserController {
-  // /**
-  //  * Display a list of resource
-  //  */
-  // async index({ }: HttpContext) { }
+  /**
+   * Display a list of resource
+   */
+  async index() {
+    const users = await User.all()
+    return users
+  }
 
   // /**
   //  * Display form to create a new record
@@ -16,13 +19,12 @@ export default class UserController {
   //  * Handle form submission for the create action
   //  */
   async store({ request }: HttpContext) {
-    const { email, password, fullName } = request.all()
+    const { email, password, fullName } = request.only(['email', 'password', 'fullName'])
     const user = await User.create({
       fullName,
       email,
       password,
     })
-
     return user
   }
 
