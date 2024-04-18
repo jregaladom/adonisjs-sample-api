@@ -9,11 +9,13 @@
 
 import router from '@adonisjs/core/services/router'
 import usersRoutes from '#routes/users'
+import projectsRoutes from '#routes/projects'
 router
   .group(() => {
     router
       .group(() => {
         usersRoutes()
+        projectsRoutes()
       })
       .prefix('v1')
   })
