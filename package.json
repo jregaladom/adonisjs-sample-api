@@ -57,6 +57,7 @@
     "@adonisjs/lucid": "^20.1.0",
     "@types/uuid": "^9.0.8",
     "@vinejs/vine": "^1.7.1",
+    "adonis-lucid-soft-deletes": "^2.0.0",
     "luxon": "^3.4.4",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.1",

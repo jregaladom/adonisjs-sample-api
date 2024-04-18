@@ -7,6 +7,7 @@ export default function routes() {
     .group(() => {
       router.get('/', [ProjectsController, 'index']).as('projects.index')
       router.post('/', [ProjectsController, 'store']).as('projects.store')
+      router.delete('/:id', [ProjectsController, 'destroy']).as('projects.destroy')
     })
     .prefix('projects')
     .use(
