@@ -1,7 +1,7 @@
 import { HttpContext } from '@adonisjs/core/http'
 import Project from '#models/project'
 import SecurityUserService from '#services/security/security_user_service'
-import { createProjectValidator } from '#validators/project_validator'
+import { createProjectValidator, deleteProjectValidator } from '#validators/project_validator'
 
 export default class ProjectsController {
   /**
@@ -26,8 +26,7 @@ export default class ProjectsController {
   async store({ request, auth }: HttpContext) {
     const user = await auth.authenticate()
     const { name } = request.only(['name'])
-    const payload = await createProjectValidator.validate({ name })
-    console.log(payload)
+    await createProjectValidator.validate({ name })
     const project = await user.related('project').create({
       fullName: name,
     })
@@ -39,9 +38,10 @@ export default class ProjectsController {
   //  */
   async destroy({ params, auth }: HttpContext) {
     const user = await auth.authenticate()
+    await deleteProjectValidator.validate(params)
     const project = await Project.find(params.id)
     await SecurityUserService.checkPermissions(user, project)
-    await project?.delete()
+    //await project?.delete()
     return {
       message: 'Project deleted successfully',
       success: true,
