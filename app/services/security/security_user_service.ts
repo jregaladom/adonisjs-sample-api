@@ -7,17 +7,16 @@ export default class SecurityUserService {
         status: 401,
       })
     }
-
     if (!resource) {
       throw new UnAuthorizedException('', {
         status: 404,
       })
-    }
-
-    if (resource.userId !== user.id) {
-      throw new UnAuthorizedException('', {
-        status: 403,
-      })
+    } else {
+      if (resource.userId !== user.id) {
+        throw new UnAuthorizedException('', {
+          status: 403,
+        })
+      }
     }
   }
 }

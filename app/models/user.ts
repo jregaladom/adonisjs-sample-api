@@ -7,6 +7,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { v4 as uuidv4 } from 'uuid'
 import Project from '#models/project'
+import Task from '#models/task'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -20,6 +21,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
     foreignKey: 'userId',
   })
   declare project: HasMany<typeof Project>
+
+  @hasMany(() => Task, {
+    foreignKey: 'userId',
+  })
+  declare task: HasMany<typeof Task>
 
   @beforeCreate()
   static async setID(user: User) {

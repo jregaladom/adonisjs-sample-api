@@ -1,17 +1,18 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
-import Task from '#models/task'
-import { SoftDeletes } from 'adonis-lucid-soft-deletes'
+import Project from '#models/project'
 import { compose } from '@adonisjs/core/helpers'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
-
-export default class Project extends compose(BaseModel, SoftDeletes) {
-  static table = 'system.projects'
+import { SoftDeletes } from 'adonis-lucid-soft-deletes'
+export default class Task extends compose(BaseModel, SoftDeletes) {
+  static table = 'system.tasks'
 
   @column({ isPrimary: true, serializeAs: null })
   declare id: string
+
+  @column()
+  declare description: string | null
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   declare createdAt: DateTime
@@ -25,14 +26,12 @@ export default class Project extends compose(BaseModel, SoftDeletes) {
   @column({ serializeAs: null })
   declare userId: string | null
 
-  @column()
-  declare fullName: string | null
+  @column({ serializeAs: null })
+  declare projectId: string | null
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
 
-  @hasMany(() => Task, {
-    foreignKey: 'projectId',
-  })
-  declare task: HasMany<typeof Task>
+  @belongsTo(() => Project)
+  declare project: BelongsTo<typeof Project>
 }

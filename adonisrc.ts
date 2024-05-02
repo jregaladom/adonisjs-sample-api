@@ -37,7 +37,7 @@ export default defineConfig({
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('adonis-lucid-soft-deletes/provider'),
-    () => import('@adonisjs/vite/vite_provider')
+    () => import('@adonisjs/vite/vite_provider'),
   ],
 
   /*
@@ -48,7 +48,11 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel')],
+  preloads: [
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    () => import('#start/validator'),
+  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -74,8 +78,10 @@ export default defineConfig({
     ],
     forceExit: false,
   },
-  metaFiles: [{
-    pattern: 'public/**',
-    reloadServer: false,
-  }]
+  metaFiles: [
+    {
+      pattern: 'public/**',
+      reloadServer: false,
+    },
+  ],
 })
