@@ -11,6 +11,8 @@ export default class UnAuthorizedException extends Exception {
       return ctx.response
         .status(error.status)
         .send({ message: 'No cuenta con autorización sobre el recurso.' })
+    } else if (error.status === 404) {
+      return ctx.response.status(error.status).send({ message: 'Recurso no encontrado.' })
     }
   }
 }

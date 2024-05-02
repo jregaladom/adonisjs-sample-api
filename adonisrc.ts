@@ -1,6 +1,10 @@
 import { defineConfig } from '@adonisjs/core/app'
 
 export default defineConfig({
+  assetsBundler: false,
+  unstable_assembler: {
+    onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
+  },
   /*
   |--------------------------------------------------------------------------
   | Commands
@@ -33,6 +37,7 @@ export default defineConfig({
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('adonis-lucid-soft-deletes/provider'),
+    () => import('@adonisjs/vite/vite_provider')
   ],
 
   /*
@@ -69,4 +74,8 @@ export default defineConfig({
     ],
     forceExit: false,
   },
+  metaFiles: [{
+    pattern: 'public/**',
+    reloadServer: false,
+  }]
 })

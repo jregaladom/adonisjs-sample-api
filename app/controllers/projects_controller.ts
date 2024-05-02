@@ -1,6 +1,6 @@
 import { HttpContext } from '@adonisjs/core/http'
 import Project from '#models/project'
-import UnAuthorizedException from '#exceptions/un_authorized_exception'
+import SecurityUserService from '#services/security/security_user_service'
 
 export default class ProjectsController {
   /**
@@ -29,17 +29,12 @@ export default class ProjectsController {
   //  */
   async destroy({ params, auth }: HttpContext) {
     const user = await auth.authenticate()
-    const project = await Project.findOrFail(params.id)
-    if (project.userId !== user.id) {
-      throw new UnAuthorizedException('', {
-        status: 403,
-      })
-    } else {
-      await project.delete()
-      return {
-        message: 'Project deleted successfully',
-        success: true,
-      }
+    const project = await Project.find(params.id)
+    await SecurityUserService.checkPermissions(user, project)
+    await project?.delete()
+    return {
+      message: 'Project deleted successfully',
+      success: true,
     }
   }
 }
