@@ -40,7 +40,7 @@ export default class ProjectsController {
     const user = await auth.authenticate()
     await deleteProjectValidator.validate(params)
     const project = await Project.find(params.id)
-    await SecurityUserService.checkPermissions(user, project)
+    //await SecurityUserService.checkPermissions(user, project)
     //await project?.delete()
     return {
       message: 'Project deleted successfully',

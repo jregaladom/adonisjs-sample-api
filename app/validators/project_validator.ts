@@ -12,8 +12,8 @@ const deleteProjectValidator = vine.compile(
   vine.object({
     id: vine
       .string()
-      .use(uuidRule())
-      .exists(async (db, value, field) => {
+      .use(uuidRule({}))
+      .exists(async (db, value) => {
         const project = await db.from('system.projects').where('id', value).first()
         return project
       }),
@@ -29,8 +29,9 @@ createProjectValidator.errorReporter = () => new JSONAPIErrorReporter()
 deleteProjectValidator.messagesProvider = new SimpleMessagesProvider({
   'id.required': 'El campo {{ field }} es requerido',
   'id.exists': 'El identificador del campo {{ field }} no existe',
+  'id.uuid': 'El campo {{ field }} no es un UUID válido',
 })
 
-deleteProjectValidator.errorReporter = () => new JSONAPIErrorReporter()
+//deleteProjectValidator.errorReporter = () => new JSONAPIErrorReporter()
 
 export { createProjectValidator, deleteProjectValidator }

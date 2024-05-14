@@ -1,10 +1,13 @@
 import { FieldContext } from '@vinejs/vine/types'
 import { validate as uuidValidate } from 'uuid'
 import vine from '@vinejs/vine'
+
+type Options = {}
+
 /**
  * Implementation
  */
-async function uuid(value: unknown) {
+async function uuid(value: unknown, options: Options, field: FieldContext) {
   /**
    * We do not want to deal with non-string
    * values. The "string" rule will handle the
@@ -15,8 +18,7 @@ async function uuid(value: unknown) {
   }
 
   if (!uuidValidate(value)) {
-    //field.report('The {{ field }} field is not a valid UUID', 'uuid', field)
-    return 'The {{ field }} field is not a valid UUID'
+    field.report('The {{ field }} field is not uuid', 'uuid', field)
   }
 }
 
