@@ -16,7 +16,6 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   async handle(error: unknown, ctx: HttpContext) {
     if (error instanceof errors.E_INVALID_CREDENTIALS && ctx.route?.name === 'users.access') {
-      console.log(ctx)
       throw new UnAuthorizedException('', {
         status: error.status,
       })

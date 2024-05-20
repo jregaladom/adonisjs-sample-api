@@ -25,6 +25,8 @@ export class JSONAPIErrorReporter implements ErrorReporterContract {
      */
     this.errors.push({
       message: message,
+      // rule: rule,
+      // field: field,
       ...(meta ? { meta } : {}),
     })
   }
